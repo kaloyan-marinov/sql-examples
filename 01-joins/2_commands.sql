@@ -21,14 +21,6 @@ SELECT employees.last_name, employees.department_id, departments.name
 FROM employees, departments
 WHERE employees.department_id = departments.id;
 
--- -- If columns in an equi-join (= a comparator-based JOIN that uses only equality
--- -- operators in the JOIN predicate) have the same name,
--- -- SQL-92 provides an optional shorthand notation for such JOINs
--- -- by way of the USING construct, which is more than mere syntactic sugar:
--- SELECT *
--- FROM employee INNER JOIN department
--- USING (DepartmentId);
-
 -- A LEFT OUTER JOIN returns all the values from an INNER JOIN
 -- plus all values in the left table that do not match to the right table,
 -- including rows with NULL (empty) values in the link column.
@@ -48,8 +40,28 @@ FROM employees FULL OUTER JOIN departments
 -- A self-join is joining a table to itself.
 -- For example, suppose we need to find all pairs of employees in the same country;
 -- that can be accomplished via the following self-join:
-SELECT e1.id, e1.last_name, e2.id, e2.last_name, e2.country
+SELECT
+    e1.id AS e1_id,
+    e1.last_name AS e1_last_name,
+    e2.id AS e2_id,
+    e2.last_name AS e2_last_name,
+    e2.country
 FROM employees AS e1 INNER JOIN employees as e2
   ON e1.country = e2.country
+WHERE e1.id < e2.id
+ORDER BY e1.id, e2.id;
+
+-- If columns in an equi-join (= a comparator-based JOIN that uses only equality
+-- operators in the JOIN predicate) have the same name,
+-- SQL-92 provides an optional shorthand notation for such JOINs
+-- by way of the USING construct, which is more than mere syntactic sugar:
+SELECT
+    e1.id AS e1_id,
+    e1.last_name AS e1_last_name,
+    e2.id AS e2_id,
+    e2.last_name AS e2_last_name,
+    e2.country
+FROM employees AS e1 INNER JOIN employees as e2
+  USING (country)
 WHERE e1.id < e2.id
 ORDER BY e1.id, e2.id;
