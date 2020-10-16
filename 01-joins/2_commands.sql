@@ -44,3 +44,12 @@ FROM employee FULL OUTER JOIN department
 -- Some database systems (such as SQLite) do not support the FULL OUTER JOIN
 -- functionality directly, but they can emulate it through the use of (a) an INNER JOIN,
 -- (b) UNION ALL, and (c) the EXISTS boolean operator.
+
+-- A self-join is joining a table to itself.
+-- For example, suppose we need to find all pairs of employees in the same country;
+-- that can be accomplished via the following self-join:
+SELECT F.id, F.LastName, S.id, S.LastName, S.country
+FROM employee AS F INNER JOIN employee as S
+  ON F.country = S.country
+WHERE F.id < S.id
+ORDER BY F.id, S.id;
