@@ -1,5 +1,8 @@
+-- enable foreign key constraint
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE departments (
-    id INT PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY NOT NULL,
     name VARCHAR(20)
 );
 
@@ -7,7 +10,7 @@ CREATE TABLE employees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     last_name VARCHAR(20),
     country VARCHAR(20),
-    department_id INT REFERENCES department(id)
+    department_id INTEGER REFERENCES departments(id)
 );
 
 INSERT INTO departments
