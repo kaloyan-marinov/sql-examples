@@ -1,16 +1,20 @@
 -- enable foreign key constraint
+-- (NB: by default, the following needs to be issued every time `sqlite3` is started!)
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE departments (
-    id INTEGER PRIMARY KEY NOT NULL,
+    id   INTEGER     PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(20)
 );
 
 CREATE TABLE employees (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    last_name VARCHAR(20),
-    country VARCHAR(20),
-    department_id INTEGER REFERENCES departments(id)
+    id            INTEGER     PRIMARY KEY AUTOINCREMENT,
+    last_name     VARCHAR(20),
+    country       VARCHAR(20),
+    department_id INTEGER,
+    CONSTRAINT department_fk
+        FOREIGN KEY (department_id)
+        REFERENCES departments (id)
 );
 
 INSERT INTO departments
